@@ -5,7 +5,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:taskati/core/models/task_model.dart';
-import 'package:taskati/core/services/local_storge.dart';
 import 'package:taskati/features/home/widgets/home_header.dart';
 import 'package:taskati/features/home/widgets/task_item.dart';
 import 'package:taskati/features/home/widgets/today_header.dart';
@@ -22,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+  String selectedDate = DateFormat.yMd().format(DateTime.now());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,22 +40,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 dayTextStyle: getBodyTextStyle(context),
                 height: 100,
                 width: 70,
-                DateTime.now().subtract(const Duration(days: 2)),
+                DateTime.now(),
                 initialSelectedDate: DateTime.now(),
                 selectionColor: AppColors.primaryColor,
                 selectedTextColor: AppColors.whiteColor,
                 onDateChange: (date) => setState(() {
-                    selectedDate = DateFormat('dd-MM-yyyy').format(date) ;
+                    selectedDate = DateFormat.yMd().format(date) ;
                   }),
               ),
               const Gap(20),
               Expanded(
                 child: ValueListenableBuilder(
-                  valueListenable: AppLocalStorage.tasksBox.listenable(),
-                 builder: (context,value,child){
+                  valueListenable: Hive.box<TaskModel>('tasksBox').listenable(),
+                 builder: (BuildContext context,Box<TaskModel>value,Widget?child){
                     List<TaskModel> tasks = [];
                    for(var task in value.values){
-                     if(selectedDate == task.date){
+                     if(task.date==selectedDate){
                        tasks.add(task);
                      }
                    }

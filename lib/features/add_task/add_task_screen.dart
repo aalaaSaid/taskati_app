@@ -22,7 +22,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   final noteController = TextEditingController();
   int selectedColor=0 ;
   bool isDark = AppLocalStorage.getCachedDataOfUser('isDark')??false;
-  String date =DateFormat('dd-MM-yyyy').format(DateTime.now());
+  String date =DateFormat.yMd().format(DateTime.now());
   String startTime = DateFormat('hh:mm a').format(DateTime.now());
   String endTime = DateFormat('hh:mm a').format(DateTime.now().add(const Duration(hours: 12)));
 

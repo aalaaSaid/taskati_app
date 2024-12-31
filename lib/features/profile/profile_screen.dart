@@ -133,7 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               });
                             }
                           }),
-                      Gap(30),
+                      const Gap(30),
                   
                     ],
                   ),
